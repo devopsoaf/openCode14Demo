@@ -14,7 +14,7 @@ from helpers import fake_connection as _fake_connection
 def _make_notification_row(
     notification_id="notif-test123",
     incident_id="inc-test123",
-    engineer="alice@example.com",
+    engineer="omarafidi2005@gmail.com",
     channel="mock",
     status="delivered",
     message="Test notification",
@@ -53,7 +53,7 @@ async def test_send_mock_notification(client, sample_notification_payload):
     assert body["channel"] == "mock"
     assert body["status"] == "delivered"
     assert body["incident_id"] == "inc-test123"
-    assert body["engineer"] == "alice@example.com"
+    assert body["engineer"] == "omarafidi2005@gmail.com"
     assert "notification_id" in body
     assert "timestamp" in body
 
@@ -72,7 +72,7 @@ async def test_send_notification_invalid_channel(client):
         "/api/v1/notify",
         json={
             "incident_id": "inc-test",
-            "engineer": "bob@example.com",
+            "engineer": "omarafidi2005@gmail.com",
             "channel": "INVALID",
             "message": "test",
         },
@@ -100,7 +100,7 @@ async def test_send_email_notification_falls_back_to_mock(client):
                 "/api/v1/notify",
                 json={
                     "incident_id": "inc-email",
-                    "engineer": "alice@example.com",
+                    "engineer": "omarafidi2005@gmail.com",
                     "channel": "email",
                     "message": "Email test",
                 },
@@ -129,7 +129,7 @@ async def test_send_webhook_no_urls_configured(client):
                 "/api/v1/notify",
                 json={
                     "incident_id": "inc-webhook",
-                    "engineer": "bob@example.com",
+                    "engineer": "omarafidi2005@gmail.com",
                     "channel": "webhook",
                     "message": "Webhook test",
                 },
@@ -151,7 +151,7 @@ async def test_send_notification_db_failure_still_returns_201(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-dbfail",
-                "engineer": "charlie@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "mock",
                 "message": "DB failure test",
             },
@@ -308,7 +308,7 @@ async def test_send_email_with_api_key_success(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-email-key",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "email",
                 "message": "Email with key test",
             },
@@ -350,7 +350,7 @@ async def test_send_email_with_api_key_failure(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-email-fail",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "email",
                 "message": "Email fail test",
             },
@@ -392,7 +392,7 @@ async def test_send_email_with_api_key_exception(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-email-exc",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "email",
                 "message": "Email exception test",
             },
@@ -434,7 +434,7 @@ async def test_send_webhook_with_urls_success(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-webhook-ok",
-                "engineer": "bob@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "webhook",
                 "message": "Webhook success test",
                 "webhook_url": "http://hook0.test/hook",
@@ -474,7 +474,7 @@ async def test_send_webhook_with_urls_failure(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-webhook-fail",
-                "engineer": "bob@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "webhook",
                 "message": "Webhook failure test",
             },
@@ -514,7 +514,7 @@ async def test_send_webhook_per_url_exception(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-webhook-exc",
-                "engineer": "bob@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "webhook",
                 "message": "Webhook per-url exception",
             },
@@ -553,7 +553,7 @@ async def test_send_webhook_client_exception(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-webhook-client-exc",
-                "engineer": "bob@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "webhook",
                 "message": "Webhook client exception",
             },
@@ -585,7 +585,7 @@ async def test_send_slack_no_url_falls_back_to_mock(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-slack-mock",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "slack",
                 "message": "Slack fallback test",
             },
@@ -623,7 +623,7 @@ async def test_send_slack_with_url_success(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-slack-ok",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "slack",
                 "message": "Slack success test",
                 "severity": "critical",
@@ -662,7 +662,7 @@ async def test_send_slack_with_url_failure(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-slack-fail",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "slack",
                 "message": "Slack failure test",
             },
@@ -700,7 +700,7 @@ async def test_send_slack_exception(client):
             "/api/v1/notify",
             json={
                 "incident_id": "inc-slack-exc",
-                "engineer": "alice@example.com",
+                "engineer": "omarafidi2005@gmail.com",
                 "channel": "slack",
                 "message": "Slack exception test",
             },

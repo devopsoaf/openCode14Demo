@@ -15,8 +15,8 @@ def test_oncall_current_gauge():
     """oncall_current gauge can be set."""
     from app.metrics import oncall_current
 
-    oncall_current.labels(team="backend", engineer="alice@example.com", role="primary").set(1)
-    val = oncall_current.labels(team="backend", engineer="alice@example.com", role="primary")._value.get()
+    oncall_current.labels(team="backend", engineer="omarafidi2005@gmail.com", role="primary").set(1)
+    val = oncall_current.labels(team="backend", engineer="omarafidi2005@gmail.com", role="primary")._value.get()
     assert val == 1.0
 
 

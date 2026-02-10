@@ -9,7 +9,7 @@ def test_notification_request_valid():
     """Valid NotificationRequest should be created successfully."""
     req = NotificationRequest(
         incident_id="inc-123",
-        engineer="alice@example.com",
+        engineer="omarafidi2005@gmail.com",
         channel="mock",
         message="Test notification",
     )
@@ -23,7 +23,7 @@ def test_notification_request_with_severity():
     """NotificationRequest with optional severity."""
     req = NotificationRequest(
         incident_id="inc-456",
-        engineer="bob@example.com",
+        engineer="omarafidi2005@gmail.com",
         channel="webhook",
         message="Critical alert",
         severity="critical",
@@ -43,7 +43,7 @@ def test_notification_request_invalid_channel():
     with pytest.raises(ValidationError):
         NotificationRequest(
             incident_id="inc-789",
-            engineer="test@test.com",
+            engineer="omarafidi2005@gmail.com",
             channel="INVALID",
             message="test",
         )
@@ -76,7 +76,7 @@ def test_notification_request_default_channel():
     """Default channel should be mock."""
     req = NotificationRequest(
         incident_id="inc-default",
-        engineer="test@test.com",
+        engineer="omarafidi2005@gmail.com",
         message="test default channel",
     )
     assert req.channel == NotificationChannel.MOCK

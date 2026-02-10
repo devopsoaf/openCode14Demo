@@ -62,8 +62,8 @@ async def test_create_schedule(live_client, db_conn):
         "rotation_type": "weekly",
         "start_date": "2026-01-01",
         "engineers": [
-            {"name": "Alice CI", "email": "alice-ci@example.com", "primary": True},
-            {"name": "Bob CI", "email": "bob-ci@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
     }

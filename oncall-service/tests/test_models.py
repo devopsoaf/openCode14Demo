@@ -22,8 +22,8 @@ from pydantic import ValidationError
 
 def test_engineer_model():
     """Engineer model validates correctly."""
-    eng = Engineer(name="Alice", email="alice@example.com", primary=True)
-    assert eng.name == "Alice"
+    eng = Engineer(name="Omar Afidi", email="omarafidi2005@gmail.com", primary=True)
+    assert eng.name == "Omar Afidi"
     assert eng.primary is True
 
 
@@ -34,7 +34,7 @@ def test_schedule_create_request():
         rotation_type="weekly",
         start_date="2026-01-01",
         engineers=[
-            Engineer(name="Alice", email="alice@example.com", primary=True),
+            Engineer(name="Omar Afidi", email="omarafidi2005@gmail.com", primary=True),
         ],
         escalation_minutes=5,
     )
@@ -75,7 +75,7 @@ def test_schedule_response():
         team="platform",
         rotation_type="weekly",
         start_date=date(2026, 1, 1),
-        engineers=[Engineer(name="Alice", email="alice@example.com", primary=True)],
+        engineers=[Engineer(name="Omar Afidi", email="omarafidi2005@gmail.com", primary=True)],
         escalation_minutes=5,
         created_at=datetime(2026, 1, 1),
     )
@@ -86,21 +86,21 @@ def test_current_oncall_response():
     """CurrentOnCallResponse serializes correctly."""
     resp = CurrentOnCallResponse(
         team="platform",
-        primary=OnCallEngineer(name="Alice", email="alice@example.com", role="primary"),
-        secondary=OnCallEngineer(name="Bob", email="bob@example.com", role="secondary"),
+        primary=OnCallEngineer(name="Omar Afidi", email="omarafidi2005@gmail.com", role="primary"),
+        secondary=OnCallEngineer(name="Omar Afidi", email="omarafidi2005@gmail.com", role="secondary"),
         schedule_id="sched-1",
         rotation_type="weekly",
         escalation_minutes=5,
     )
-    assert resp.primary.name == "Alice"
-    assert resp.secondary.name == "Bob"
+    assert resp.primary.name == "Omar Afidi"
+    assert resp.secondary.name == "Omar Afidi"
 
 
 def test_current_oncall_response_no_secondary():
     """CurrentOnCallResponse works without secondary."""
     resp = CurrentOnCallResponse(
         team="solo",
-        primary=OnCallEngineer(name="Alice", email="alice@example.com", role="primary"),
+        primary=OnCallEngineer(name="Omar Afidi", email="omarafidi2005@gmail.com", role="primary"),
         schedule_id="sched-1",
         rotation_type="daily",
         escalation_minutes=10,
@@ -113,14 +113,14 @@ def test_escalate_response_with_level():
     resp = EscalateResponse(
         escalation_id="esc-1",
         incident_id="inc-1",
-        from_engineer="alice@example.com",
-        to_engineer="bob@example.com",
+        from_engineer="omarafidi2005@gmail.com",
+        to_engineer="omarafidi2005@gmail.com",
         level=2,
         reason="Timeout",
         escalated_at=datetime(2026, 2, 10, tzinfo=timezone.utc),
     )
     assert resp.level == 2
-    assert resp.from_engineer == "alice@example.com"
+    assert resp.from_engineer == "omarafidi2005@gmail.com"
 
 
 def test_escalation_policy_create_request():
@@ -175,8 +175,8 @@ def test_oncall_metrics():
         escalation_rate_pct=12.0,
         avg_mtta_seconds=180.5,
         avg_mttr_seconds=900.0,
-        oncall_load={"Alice": 5, "Bob": 3},
+        oncall_load={"Omar Afidi": 5},
         by_team={"platform": 8, "backend": 4},
     )
     assert metrics.escalation_rate_pct == 12.0
-    assert metrics.oncall_load["Alice"] == 5
+    assert metrics.oncall_load["Omar Afidi"] == 5

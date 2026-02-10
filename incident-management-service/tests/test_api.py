@@ -58,8 +58,8 @@ class _FakeAsyncClientUp:
             return _FakeResponse(
                 200,
                 {
-                    "primary": {"name": "Alice", "email": "alice@example.com"},
-                    "secondary": {"name": "Bob", "email": "bob@example.com"},
+                    "primary": {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com"},
+                    "secondary": {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com"},
                 },
             )
         return _FakeResponse(200, {})
@@ -84,7 +84,7 @@ class _FakeAsyncClientOncallUpNotifDown:
         if "oncall" in url:
             return _FakeResponse(
                 200,
-                {"primary": {"name": "Alice", "email": "alice@example.com"}},
+                {"primary": {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com"}},
             )
         return _FakeResponse(200, {})
 
@@ -110,7 +110,7 @@ class _FakeAsyncClientTimerDown:
         if "oncall" in url:
             return _FakeResponse(
                 200,
-                {"primary": {"name": "Alice", "email": "alice@example.com"}},
+                {"primary": {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com"}},
             )
         return _FakeResponse(200, {})
 
@@ -233,7 +233,7 @@ def _list_connection(total: int, rows: list):
 
 @pytest.mark.asyncio
 async def test_list_incidents(client):
-    rows = [_make_incident_row(assigned_to="alice@example.com")]
+    rows = [_make_incident_row(assigned_to="omarafidi2005@gmail.com")]
 
     with patch(
         "app.routers.api.get_db_connection",
@@ -547,7 +547,7 @@ async def test_create_incident_with_assignment(client, sample_incident_payload):
 
     assert resp.status_code == 201
     body = resp.json()
-    assert body["assigned_to"] == "Alice"
+    assert body["assigned_to"] == "Omar Afidi"
 
 
 @pytest.mark.asyncio
@@ -822,7 +822,7 @@ async def test_get_analytics_no_avg(client):
 async def test_patch_assign(client):
     """PATCH with assigned_to updates the assignee."""
     row = _make_incident_row(incident_id="inc-assign")
-    updated = _make_incident_row(incident_id="inc-assign", assigned_to="bob@example.com")
+    updated = _make_incident_row(incident_id="inc-assign", assigned_to="omarafidi2005@gmail.com")
 
     with patch(
         "app.routers.api.get_db_connection",
@@ -833,7 +833,7 @@ async def test_patch_assign(client):
     ):
         resp = await client.patch(
             "/api/v1/incidents/inc-assign",
-            json={"assigned_to": "bob@example.com"},
+            json={"assigned_to": "omarafidi2005@gmail.com"},
         )
 
     assert resp.status_code == 200

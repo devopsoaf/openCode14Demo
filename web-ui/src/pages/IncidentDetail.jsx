@@ -66,7 +66,7 @@ export default function IncidentDetail() {
 	const handleAddNote = (e) => {
 		e.preventDefault();
 		if (!noteText.trim()) return;
-		noteMutation.mutate({ content: noteText.trim(), author: user?.name || user?.username || 'SRE Admin' });
+		noteMutation.mutate({ content: noteText.trim(), author: user?.name || user?.username || 'Omar Afidi' });
 	};
 
 	if (isLoading) {

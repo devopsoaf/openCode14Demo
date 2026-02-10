@@ -64,7 +64,7 @@ async def client():
 def sample_notification_payload():
     return {
         "incident_id": "inc-test123",
-        "engineer": "alice@example.com",
+        "engineer": "omarafidi2005@gmail.com",
         "channel": "mock",
         "message": "Test notification message",
     }

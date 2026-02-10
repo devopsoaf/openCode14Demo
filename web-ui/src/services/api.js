@@ -40,7 +40,7 @@ export async function getIncidentMetrics(incidentId) {
 export async function addIncidentNote(incidentId, payload) {
 	const { data } = await api.patch(`${incidentBase}/incidents/${incidentId}`, {
 		note: payload.content || payload.note,
-		author: payload.author || 'SRE Admin',
+		author: payload.author || 'Omar Afidi',
 	});
 	return data;
 }

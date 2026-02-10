@@ -67,8 +67,8 @@ def sample_schedule_payload():
         "rotation_type": "weekly",
         "start_date": "2026-01-01",
         "engineers": [
-            {"name": "Alice Engineer", "email": "alice@example.com", "primary": True},
-            {"name": "Bob Developer", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
     }

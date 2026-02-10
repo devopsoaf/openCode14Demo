@@ -20,8 +20,8 @@ async def test_create_schedule(client, sample_schedule_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice Engineer", "email": "alice@example.com", "primary": True},
-            {"name": "Bob Developer", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -70,7 +70,7 @@ async def test_list_schedules(client):
             "team": "platform",
             "rotation_type": "weekly",
             "start_date": date(2026, 1, 1),
-            "engineers": [{"name": "Alice", "email": "alice@example.com", "primary": True}],
+            "engineers": [{"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True}],
             "escalation_minutes": 5,
             "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
         }
@@ -94,7 +94,7 @@ async def test_list_schedules_with_team_filter(client):
             "team": "backend",
             "rotation_type": "weekly",
             "start_date": date(2026, 1, 1),
-            "engineers": [{"name": "Diana", "email": "diana@example.com", "primary": True}],
+            "engineers": [{"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True}],
             "escalation_minutes": 10,
             "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
         }
@@ -133,9 +133,9 @@ async def test_get_current_oncall(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice Engineer", "email": "alice@example.com", "primary": True},
-            {"name": "Bob Developer", "email": "bob@example.com", "primary": False},
-            {"name": "Charlie SRE", "email": "charlie@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -180,8 +180,8 @@ async def test_escalate_incident(client, sample_escalate_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice Engineer", "email": "alice@example.com", "primary": True},
-            {"name": "Bob Developer", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -224,7 +224,7 @@ async def test_escalate_single_engineer(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice Engineer", "email": "alice@example.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -256,8 +256,8 @@ async def test_list_escalations(client):
         {
             "id": str(uuid.uuid4()),
             "incident_id": "inc-123",
-            "from_engineer": "alice@example.com",
-            "to_engineer": "bob@example.com",
+            "from_engineer": "omarafidi2005@gmail.com",
+            "to_engineer": "omarafidi2005@gmail.com",
             "level": 1,
             "reason": "Timeout",
             "escalated_at": datetime(2026, 2, 10, 12, 0, 0, tzinfo=timezone.utc),
@@ -392,7 +392,7 @@ async def test_check_escalations_with_expired_timer(client):
             "incident_id": "inc-expired-1",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -402,8 +402,8 @@ async def test_check_escalations_with_expired_timer(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -436,7 +436,7 @@ async def test_get_oncall_metrics(client):
     fake_esc_count = {"cnt": 5}
     fake_esc_by_team = [{"team": "platform", "cnt": 3}]
     fake_incident_summary = {"total": 50, "avg_mtta": 180.0, "avg_mttr": 900.0}
-    fake_load = [{"assigned_to": "Alice", "cnt": 3}]
+    fake_load = [{"assigned_to": "Omar Afidi", "cnt": 3}]
 
     with patch(
         "app.routers.api.get_db_connection",
@@ -463,8 +463,8 @@ async def test_escalate_level_2_to_manager(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -519,8 +519,8 @@ async def test_create_schedule_string_engineers(client, sample_schedule_payload)
         "engineers": json.dumps(
             [
                 {
-                    "name": "Alice Engineer",
-                    "email": "alice@example.com",
+                    "name": "Omar Afidi",
+                    "email": "omarafidi2005@gmail.com",
                     "primary": True,
                 },
             ]
@@ -545,7 +545,7 @@ async def test_list_schedules_string_engineers(client):
             "team": "platform",
             "rotation_type": "weekly",
             "start_date": date(2026, 1, 1),
-            "engineers": json.dumps([{"name": "Alice", "email": "alice@example.com", "primary": True}]),
+            "engineers": json.dumps([{"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True}]),
             "escalation_minutes": 5,
             "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
         }
@@ -568,8 +568,8 @@ async def test_get_current_oncall_string_engineers(client):
         "start_date": date(2026, 1, 1),
         "engineers": json.dumps(
             [
-                {"name": "Alice", "email": "alice@example.com", "primary": True},
-                {"name": "Bob", "email": "bob@example.com", "primary": False},
+                {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+                {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
             ]
         ),
         "escalation_minutes": 5,
@@ -660,8 +660,8 @@ async def test_escalate_no_team_defaults_to_platform(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -688,8 +688,8 @@ async def test_escalate_db_error_recording(client, sample_escalate_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -714,8 +714,8 @@ async def test_escalate_deactivate_timer_error(client, sample_escalate_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -740,8 +740,8 @@ async def test_escalate_timer_errors(client, sample_escalate_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -766,8 +766,8 @@ async def test_escalate_notification_failure(client, sample_escalate_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -791,8 +791,8 @@ async def test_escalate_notification_bad_response(client, sample_escalate_payloa
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -823,8 +823,8 @@ async def test_list_escalations_with_incident_filter(client):
         {
             "id": str(uuid.uuid4()),
             "incident_id": "inc-filter",
-            "from_engineer": "alice@example.com",
-            "to_engineer": "bob@example.com",
+            "from_engineer": "omarafidi2005@gmail.com",
+            "to_engineer": "omarafidi2005@gmail.com",
             "level": 1,
             "reason": "Timeout",
             "escalated_at": datetime(2026, 2, 10, 12, 0, 0, tzinfo=timezone.utc),
@@ -906,7 +906,7 @@ async def test_check_escalations_incident_acknowledged(client):
             "incident_id": "inc-ack",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -935,7 +935,7 @@ async def test_check_escalations_incident_ack_deactivate_error(client):
             "incident_id": "inc-ack-err",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -963,7 +963,7 @@ async def test_check_escalations_httpx_error(client):
             "incident_id": "inc-http-err",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -973,8 +973,8 @@ async def test_check_escalations_httpx_error(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1004,7 +1004,7 @@ async def test_check_escalations_no_schedule(client):
             "incident_id": "inc-no-sched",
             "team": "orphaned",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1030,7 +1030,7 @@ async def test_check_escalations_schedule_lookup_error(client):
             "incident_id": "inc-sched-err",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1056,7 +1056,7 @@ async def test_check_escalations_policy_manager_target(client):
             "incident_id": "inc-mgr",
             "team": "platform",
             "current_level": 2,
-            "assigned_to": "bob@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1066,8 +1066,8 @@ async def test_check_escalations_policy_manager_target(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1098,7 +1098,7 @@ async def test_check_escalations_policy_direct_email(client):
             "incident_id": "inc-direct",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1108,8 +1108,8 @@ async def test_check_escalations_policy_direct_email(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1138,7 +1138,7 @@ async def test_check_escalations_no_policy_level_gt1(client):
             "incident_id": "inc-nopol",
             "team": "platform",
             "current_level": 3,
-            "assigned_to": "bob@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1148,8 +1148,8 @@ async def test_check_escalations_no_policy_level_gt1(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1177,7 +1177,7 @@ async def test_check_escalations_no_policy_level1_secondary(client):
             "incident_id": "inc-nopol-l1",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1187,8 +1187,8 @@ async def test_check_escalations_no_policy_level1_secondary(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1204,7 +1204,7 @@ async def test_check_escalations_no_policy_level1_secondary(client):
     assert resp.status_code == 200
     body = resp.json()
     # The actual secondary depends on rotation index at today's date
-    assert body["details"][0]["to"] in ("alice@example.com", "bob@example.com")
+    assert body["details"][0]["to"] in ("omarafidi2005@gmail.com", "omarafidi2005@gmail.com")
 
 
 @pytest.mark.asyncio
@@ -1216,7 +1216,7 @@ async def test_check_escalations_policy_lookup_error(client):
             "incident_id": "inc-pol-err",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1226,8 +1226,8 @@ async def test_check_escalations_policy_lookup_error(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1255,7 +1255,7 @@ async def test_check_escalations_record_error(client):
             "incident_id": "inc-rec-err",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1265,8 +1265,8 @@ async def test_check_escalations_record_error(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1307,8 +1307,8 @@ async def test_check_escalations_max_level_no_timer(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1338,7 +1338,7 @@ async def test_check_escalations_incident_404(client):
             "incident_id": "inc-404",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
         }
     ]
 
@@ -1348,8 +1348,8 @@ async def test_check_escalations_incident_404(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1540,7 +1540,7 @@ async def test_escalate_no_to_engineer(client):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1565,8 +1565,8 @@ async def test_escalate_timer_uses_policy_wait(client, sample_escalate_payload):
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice", "email": "alice@example.com", "primary": True},
-            {"name": "Bob", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1606,8 +1606,8 @@ async def test_create_schedule_with_handoff_and_timezone(client, sample_schedule
         "rotation_type": "weekly",
         "start_date": date(2026, 1, 1),
         "engineers": [
-            {"name": "Alice Engineer", "email": "alice@example.com", "primary": True},
-            {"name": "Bob Developer", "email": "bob@example.com", "primary": False},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
         "handoff_hour": 8,
@@ -1641,7 +1641,7 @@ async def test_start_timer_success(client):
     timer_payload = {
         "incident_id": "inc-timer-001",
         "team": "platform",
-        "assigned_to": "alice@example.com",
+        "assigned_to": "omarafidi2005@gmail.com",
     }
 
     # Call 1: policy lookup (no policy → use default)
@@ -1653,7 +1653,7 @@ async def test_start_timer_success(client):
     body = resp.json()
     assert body["incident_id"] == "inc-timer-001"
     assert body["team"] == "platform"
-    assert body["assigned_to"] == "alice@example.com"
+    assert body["assigned_to"] == "omarafidi2005@gmail.com"
     assert body["current_level"] == 1
     assert "escalate_after" in body
 
@@ -1664,7 +1664,7 @@ async def test_start_timer_with_policy(client):
     timer_payload = {
         "incident_id": "inc-timer-002",
         "team": "platform",
-        "assigned_to": "alice@example.com",
+        "assigned_to": "omarafidi2005@gmail.com",
     }
 
     # Call 1: policy lookup found
@@ -1684,7 +1684,7 @@ async def test_start_timer_policy_db_error(client):
     timer_payload = {
         "incident_id": "inc-timer-003",
         "team": "platform",
-        "assigned_to": "alice@example.com",
+        "assigned_to": "omarafidi2005@gmail.com",
     }
 
     # Call 1: policy lookup raises exception → falls back to default
@@ -1701,7 +1701,7 @@ async def test_start_timer_insert_db_error(client):
     timer_payload = {
         "incident_id": "inc-timer-004",
         "team": "platform",
-        "assigned_to": "alice@example.com",
+        "assigned_to": "omarafidi2005@gmail.com",
     }
 
     # Call 1: policy lookup ok
@@ -1767,7 +1767,7 @@ async def test_list_timers(client):
             "incident_id": "inc-t-001",
             "team": "platform",
             "current_level": 1,
-            "assigned_to": "alice@example.com",
+            "assigned_to": "omarafidi2005@gmail.com",
             "escalate_after": datetime(2026, 1, 1, 12, 0, tzinfo=timezone.utc),
             "is_active": True,
         }
@@ -1828,8 +1828,8 @@ async def test_add_schedule_member_success(client):
     """POST /api/v1/schedules/{id}/members creates a member."""
     schedule_id = str(uuid.uuid4())
     member_payload = {
-        "user_name": "Alice Engineer",
-        "user_email": "alice@example.com",
+        "user_name": "Omar Afidi",
+        "user_email": "omarafidi2005@gmail.com",
         "position": 1,
     }
 
@@ -1837,8 +1837,8 @@ async def test_add_schedule_member_success(client):
     fake_member_row = {
         "id": str(uuid.uuid4()),
         "schedule_id": schedule_id,
-        "user_name": "Alice Engineer",
-        "user_email": "alice@example.com",
+        "user_name": "Omar Afidi",
+        "user_email": "omarafidi2005@gmail.com",
         "position": 1,
         "is_active": True,
         "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1853,7 +1853,7 @@ async def test_add_schedule_member_success(client):
 
     assert resp.status_code == 201
     body = resp.json()
-    assert body["user_name"] == "Alice Engineer"
+    assert body["user_name"] == "Omar Afidi"
     assert body["position"] == 1
     assert body["is_active"] is True
 
@@ -1863,8 +1863,8 @@ async def test_add_schedule_member_schedule_not_found(client):
     """POST /api/v1/schedules/{id}/members returns 404 for unknown schedule."""
     schedule_id = str(uuid.uuid4())
     member_payload = {
-        "user_name": "Alice",
-        "user_email": "alice@example.com",
+        "user_name": "Omar Afidi",
+        "user_email": "omarafidi2005@gmail.com",
         "position": 1,
     }
 
@@ -1880,8 +1880,8 @@ async def test_add_schedule_member_db_error(client):
     """POST /api/v1/schedules/{id}/members returns 500 on DB error."""
     schedule_id = str(uuid.uuid4())
     member_payload = {
-        "user_name": "Alice",
-        "user_email": "alice@example.com",
+        "user_name": "Omar Afidi",
+        "user_email": "omarafidi2005@gmail.com",
         "position": 1,
     }
 
@@ -1902,8 +1902,8 @@ async def test_list_schedule_members(client):
         {
             "id": str(uuid.uuid4()),
             "schedule_id": schedule_id,
-            "user_name": "Alice",
-            "user_email": "alice@example.com",
+            "user_name": "Omar Afidi",
+            "user_email": "omarafidi2005@gmail.com",
             "position": 1,
             "is_active": True,
             "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1911,8 +1911,8 @@ async def test_list_schedule_members(client):
         {
             "id": str(uuid.uuid4()),
             "schedule_id": schedule_id,
-            "user_name": "Bob",
-            "user_email": "bob@example.com",
+            "user_name": "Omar Afidi",
+            "user_email": "omarafidi2005@gmail.com",
             "position": 2,
             "is_active": True,
             "created_at": datetime(2026, 1, 1, tzinfo=timezone.utc),
@@ -1925,7 +1925,7 @@ async def test_list_schedule_members(client):
     assert resp.status_code == 200
     body = resp.json()
     assert body["total"] == 2
-    assert body["members"][0]["user_name"] == "Alice"
+    assert body["members"][0]["user_name"] == "Omar Afidi"
     assert body["members"][1]["position"] == 2
 
 
