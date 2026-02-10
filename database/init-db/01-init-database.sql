@@ -256,91 +256,39 @@ CREATE TRIGGER trg_incidents_updated_at
 
 -- ── Seed data ───────────────────────────────────────────────
 
--- Engineers for on-call rotations
+-- Single user for the platform
 INSERT INTO users (name, email, phone, role)
 VALUES
-    ('Admin User', 'omarafidi2005@gmail.com', '+1-555-0100', 'admin'),
-    ('Omar Afidi', 'omarafidi2005@gmail.com', '+1-555-0101', 'responder'),
-    ('Alice Engineer', 'omarafidi2005@gmail.com', '+1-555-0102', 'responder'),
-    ('Bob Developer', 'omarafidi2005@gmail.com', '+1-555-0103', 'responder'),
-    ('Charlie SRE', 'omarafidi2005@gmail.com', '+1-555-0104', 'responder'),
-    ('Diana Ops', 'omarafidi2005@gmail.com', '+1-555-0105', 'responder'),
-    ('Eve Backend', 'omarafidi2005@gmail.com', '+1-555-0106', 'responder'),
-    ('Frank Frontend', 'omarafidi2005@gmail.com', '+1-555-0107', 'responder'),
-    ('Grace DevOps', 'omarafidi2005@gmail.com', '+1-555-0108', 'responder'),
-    ('Henry Platform', 'omarafidi2005@gmail.com', '+1-555-0109', 'responder')
+    ('Omar Afidi', 'omarafidi2005@gmail.com', '+1-555-0100', 'admin')
 ON CONFLICT (email) DO NOTHING;
 
--- On-call schedules for 3 teams (platform, backend, frontend)
+-- On-call schedule for payment-api
 INSERT INTO oncall.schedules (team, rotation_type, start_date, engineers, escalation_minutes, handoff_hour, timezone)
 VALUES 
     (
-        'platform',
+        'payment-api',
         'weekly',
-        '2026-01-01',
+        '2026-02-01',
         '[
-            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": true},
-            {"name": "Alice Engineer", "email": "alice@expertmind.local", "primary": false},
-            {"name": "Bob Developer", "email": "bob@expertmind.local", "primary": false}
+            {"name": "Omar Afidi", "email": "omarafidi2005@gmail.com", "primary": true}
         ]'::jsonb,
         5,
         9,
         'UTC'
-    ),
-    (
-        'backend',
-        'weekly',
-        '2026-01-01',
-        '[
-            {"name": "Charlie SRE", "email": "charlie@expertmind.local", "primary": true},
-            {"name": "Diana Ops", "email": "diana@expertmind.local", "primary": false},
-            {"name": "Eve Backend", "email": "eve@expertmind.local", "primary": false}
-        ]'::jsonb,
-        10,
-        8,
-        'US/Eastern'
-    ),
-    (
-        'frontend',
-        'daily',
-        '2026-01-01',
-        '[
-            {"name": "Frank Frontend", "email": "frank@expertmind.local", "primary": true},
-            {"name": "Grace DevOps", "email": "grace@expertmind.local", "primary": false},
-            {"name": "Henry Platform", "email": "henry@expertmind.local", "primary": false}
-        ]'::jsonb,
-        5,
-        9,
-        'Europe/London'
     )
 ON CONFLICT DO NOTHING;
 
--- Seed schedule_members for platform team
+-- Seed schedule_members
 INSERT INTO oncall.schedule_members (schedule_id, user_name, user_email, position)
 SELECT s.id, 'Omar Afidi', 'omarafidi2005@gmail.com', 1
-FROM oncall.schedules s WHERE s.team = 'platform'
-ON CONFLICT DO NOTHING;
-INSERT INTO oncall.schedule_members (schedule_id, user_name, user_email, position)
-SELECT s.id, 'Alice Engineer', 'alice@expertmind.local', 2
-FROM oncall.schedules s WHERE s.team = 'platform'
-ON CONFLICT DO NOTHING;
-INSERT INTO oncall.schedule_members (schedule_id, user_name, user_email, position)
-SELECT s.id, 'Bob Developer', 'bob@expertmind.local', 3
-FROM oncall.schedules s WHERE s.team = 'platform'
+FROM oncall.schedules s WHERE s.team = 'payment-api'
 ON CONFLICT DO NOTHING;
 
--- Escalation policies for each team
+-- Escalation policy
 INSERT INTO oncall.escalation_policies (team, level, wait_minutes, notify_target)
 VALUES
-    -- Platform team: 5 min → secondary, 10 more min → manager
-    ('platform', 1, 5,  'secondary'),
-    ('platform', 2, 10, 'admin@expertmind.local'),
-    -- Backend team: 10 min → secondary, 15 more min → manager
-    ('backend',  1, 10, 'secondary'),
-    ('backend',  2, 15, 'admin@expertmind.local'),
-    -- Frontend team: 5 min → secondary, 10 more min → manager
-    ('frontend', 1, 5,  'secondary'),
-    ('frontend', 2, 10, 'admin@expertmind.local')
+    ('payment-api', 1, 5, 'secondary'),
+    ('payment-api', 2, 10, 'omarafidi2005@gmail.com')
 ON CONFLICT DO NOTHING;
 
 -- ============================================================
@@ -381,18 +329,38 @@ CREATE TABLE IF NOT EXISTS analysis.resolved_patterns (
 
 CREATE INDEX IF NOT EXISTS idx_resolved_patterns_service ON analysis.resolved_patterns(service);
 
--- ── Demo/Test Alerts ────────────────────────────────────────
-INSERT INTO alerts.alerts (alert_id, service, severity, message, labels, timestamp)
+-- ── Previous Incident 1: Auth-service outage (resolved, 3 alerts) ────
+INSERT INTO incidents.incidents (incident_id, title, description, service, severity, status, assigned_to, created_at, acknowledged_at, resolved_at, updated_at)
 VALUES
-    ('alert-demo-1', 'platform', 'critical', 'Demo: Platform outage', '{}', NOW() - INTERVAL '2 days'),
-    ('alert-demo-2', 'backend', 'high', 'Demo: Backend error spike', '{}', NOW() - INTERVAL '1 day'),
-    ('alert-demo-3', 'frontend', 'medium', 'Demo: Frontend slow load', '{}', NOW() - INTERVAL '12 hours')
+    ('inc-prev-1', '[CRITICAL] auth-service: Authentication failures', 'Multiple auth failures across production', 'auth-service', 'critical', 'resolved', 'Omar Afidi', NOW() - INTERVAL '3 days', NOW() - INTERVAL '3 days' + INTERVAL '2 minutes', NOW() - INTERVAL '3 days' + INTERVAL '45 minutes', NOW() - INTERVAL '3 days' + INTERVAL '45 minutes')
+ON CONFLICT (incident_id) DO NOTHING;
+
+INSERT INTO alerts.alerts (alert_id, service, severity, message, labels, timestamp, incident_id, status)
+VALUES
+    ('alert-prev-1a', 'auth-service', 'critical', 'Authentication endpoint returning 503. Login success rate dropped to 12%.', '{"env":"production"}', NOW() - INTERVAL '3 days', (SELECT id FROM incidents.incidents WHERE incident_id = 'inc-prev-1'), 'resolved'),
+    ('alert-prev-1b', 'auth-service', 'critical', 'Token validation failures spiking: 850 errors/min. JWT verification timeout.', '{"env":"production"}', NOW() - INTERVAL '3 days' + INTERVAL '3 minutes', (SELECT id FROM incidents.incidents WHERE incident_id = 'inc-prev-1'), 'resolved'),
+    ('alert-prev-1c', 'auth-service', 'critical', 'Redis session store unreachable from auth-service pods. Connection pool exhausted.', '{"env":"production"}', NOW() - INTERVAL '3 days' + INTERVAL '7 minutes', (SELECT id FROM incidents.incidents WHERE incident_id = 'inc-prev-1'), 'resolved')
 ON CONFLICT (alert_id) DO NOTHING;
 
--- ── Demo/Test Incidents ─────────────────────────────────────
-INSERT INTO incidents.incidents (incident_id, title, description, service, severity, status, created_at, updated_at)
+INSERT INTO incidents.incident_alerts (incident_id, alert_id)
+SELECT i.id, a.id FROM incidents.incidents i, alerts.alerts a
+WHERE i.incident_id = 'inc-prev-1' AND a.alert_id IN ('alert-prev-1a', 'alert-prev-1b', 'alert-prev-1c')
+ON CONFLICT DO NOTHING;
+
+-- ── Previous Incident 2: Order-service degradation (resolved, 3 alerts) ────
+INSERT INTO incidents.incidents (incident_id, title, description, service, severity, status, assigned_to, created_at, acknowledged_at, resolved_at, updated_at)
 VALUES
-    ('inc-demo-1', 'Demo Incident: Platform outage', 'Demo incident for platform', 'platform', 'critical', 'open', NOW() - INTERVAL '2 days', NOW() - INTERVAL '2 days'),
-    ('inc-demo-2', 'Demo Incident: Backend errors', 'Demo incident for backend', 'backend', 'high', 'open', NOW() - INTERVAL '1 day', NOW() - INTERVAL '1 day'),
-    ('inc-demo-3', 'Demo Incident: Frontend slow', 'Demo incident for frontend', 'frontend', 'medium', 'open', NOW() - INTERVAL '12 hours', NOW() - INTERVAL '12 hours')
+    ('inc-prev-2', '[HIGH] order-service: Order processing delays', 'Order pipeline backed up due to downstream timeout', 'order-service', 'high', 'resolved', 'Omar Afidi', NOW() - INTERVAL '1 day', NOW() - INTERVAL '1 day' + INTERVAL '4 minutes', NOW() - INTERVAL '1 day' + INTERVAL '30 minutes', NOW() - INTERVAL '1 day' + INTERVAL '30 minutes')
 ON CONFLICT (incident_id) DO NOTHING;
+
+INSERT INTO alerts.alerts (alert_id, service, severity, message, labels, timestamp, incident_id, status)
+VALUES
+    ('alert-prev-2a', 'order-service', 'high', 'Order processing latency P99 at 12s. Queue depth growing: 8,200 pending orders.', '{"env":"production"}', NOW() - INTERVAL '1 day', (SELECT id FROM incidents.incidents WHERE incident_id = 'inc-prev-2'), 'resolved'),
+    ('alert-prev-2b', 'order-service', 'high', 'Downstream inventory-service returning 504 Gateway Timeout. Retry budget exhausted.', '{"env":"production"}', NOW() - INTERVAL '1 day' + INTERVAL '5 minutes', (SELECT id FROM incidents.incidents WHERE incident_id = 'inc-prev-2'), 'resolved'),
+    ('alert-prev-2c', 'order-service', 'high', 'Dead letter queue filling up: 340 failed order events in last 15 minutes.', '{"env":"production"}', NOW() - INTERVAL '1 day' + INTERVAL '10 minutes', (SELECT id FROM incidents.incidents WHERE incident_id = 'inc-prev-2'), 'resolved')
+ON CONFLICT (alert_id) DO NOTHING;
+
+INSERT INTO incidents.incident_alerts (incident_id, alert_id)
+SELECT i.id, a.id FROM incidents.incidents i, alerts.alerts a
+WHERE i.incident_id = 'inc-prev-2' AND a.alert_id IN ('alert-prev-2a', 'alert-prev-2b', 'alert-prev-2c')
+ON CONFLICT DO NOTHING;
