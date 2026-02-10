@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { getIncident, updateIncident, addIncidentNote, getIncidentSuggestions } from '@/services/api';
+import { useAuth } from '@/hooks/useAuth';
 import { timeAgo, formatDate, formatSeconds, severityColor, statusColor, statusDot } from '@/utils/formatters';
 import { cn } from '@/lib/utils';
 
@@ -33,6 +34,7 @@ export default function IncidentDetail() {
 	const { incidentId } = useParams();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
+	const { user } = useAuth();
 	const [noteText, setNoteText] = useState('');
 	const [showAi, setShowAi] = useState(true);
 
@@ -64,7 +66,7 @@ export default function IncidentDetail() {
 	const handleAddNote = (e) => {
 		e.preventDefault();
 		if (!noteText.trim()) return;
-		noteMutation.mutate({ content: noteText.trim(), author: 'SRE Admin' });
+		noteMutation.mutate({ content: noteText.trim(), author: user?.name || user?.username || 'SRE Admin' });
 	};
 
 	if (isLoading) {
@@ -86,7 +88,18 @@ export default function IncidentDetail() {
 		);
 	}
 
-	const notes = incident.notes || [];
+	// Normalise notes: backend may store as plain strings or as objects
+	const rawNotes = incident.notes || [];
+	const notes = rawNotes.map(n => {
+		if (typeof n === 'string') {
+			// Legacy format: "[2026-02-10T15:48:14+00:00] Some text"
+			const tsMatch = n.match(/^\[([^\]]+)\]\s*(.*)/);
+			return tsMatch
+				? { author: 'System', content: tsMatch[2], created_at: tsMatch[1] }
+				: { author: 'System', content: n, created_at: null };
+		}
+		return n; // already an object {author, content, created_at}
+	});
 	const linkedAlerts = incident.linked_alert_ids || incident.alert_ids || [];
 	const isOpen = incident.status === 'open';
 	const isAcked = incident.status === 'acknowledged';

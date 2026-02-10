@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Search, Filter, AlertTriangle, ChevronLeft, ChevronRight, Eye, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Search, Filter, AlertTriangle, ChevronLeft, ChevronRight, Eye, CheckCircle2, ShieldAlert, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,8 @@ const STATUSES = ['all', 'open', 'acknowledged', 'investigating', 'mitigated', '
 export default function Incidents() {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
+	const { user } = useAuth();
+	const isAdmin = user?.role === 'admin';
 	const [search, setSearch] = useState('');
 	const [severity, setSeverity] = useState('all');
 	const [status, setStatus] = useState('all');
@@ -30,7 +33,7 @@ export default function Incidents() {
 			...(severity !== 'all' && { severity }),
 			...(status !== 'all' && { status }),
 		}),
-		refetchInterval: 15000,
+		refetchInterval: 5000,
 	});
 
 	const updateMutation = useMutation({
@@ -39,9 +42,12 @@ export default function Incidents() {
 	});
 
 	const allIncidents = Array.isArray(data) ? data : data?.incidents || [];
-	const filtered = allIncidents.filter(i =>
+	// Role-based: engineers only see their assigned incidents
+	const roleFiltered = isAdmin ? allIncidents : allIncidents.filter(i => i.assigned_to?.toLowerCase() === user?.username?.toLowerCase());
+	const filtered = roleFiltered.filter(i =>
 		!search || i.title?.toLowerCase().includes(search.toLowerCase()) ||
-		i.service?.toLowerCase().includes(search.toLowerCase())
+		i.service?.toLowerCase().includes(search.toLowerCase()) ||
+		i.assigned_to?.toLowerCase().includes(search.toLowerCase())
 	);
 	const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 	const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -55,8 +61,8 @@ export default function Incidents() {
 		<div className="space-y-6 fade-in">
 			<div className="flex items-center justify-between">
 				<div>
-					<h1 className="text-2xl font-bold tracking-tight">Incidents</h1>
-					<p className="text-sm text-muted-foreground mt-1">{filtered.length} incident{filtered.length !== 1 ? 's' : ''} total</p>
+					<h1 className="text-2xl font-bold tracking-tight">{isAdmin ? 'All Incidents' : 'My Incidents'}</h1>
+					<p className="text-sm text-muted-foreground mt-1">{filtered.length} incident{filtered.length !== 1 ? 's' : ''}{!isAdmin ? ' assigned to you' : ' total'}</p>
 				</div>
 			</div>
 
@@ -125,6 +131,7 @@ export default function Incidents() {
 									<TableHead>Title</TableHead>
 									<TableHead className="w-25">Severity</TableHead>
 									<TableHead className="w-27.5">Status</TableHead>
+									<TableHead className="w-30">Assigned To</TableHead>
 									<TableHead className="w-30">Service</TableHead>
 									<TableHead className="w-30">Created</TableHead>
 									<TableHead className="w-40 text-right">Actions</TableHead>
@@ -152,6 +159,13 @@ export default function Incidents() {
 												{inc.status}
 											</span>
 										</TableCell>
+										<TableCell className="text-xs">
+											{inc.assigned_to ? (
+												<span className="inline-flex items-center gap-1"><User className="h-3 w-3 text-muted-foreground" />{inc.assigned_to}</span>
+											) : (
+												<span className="text-muted-foreground italic">unassigned</span>
+											)}
+										</TableCell>
 										<TableCell className="text-xs text-muted-foreground">{inc.service || '—'}</TableCell>
 										<TableCell className="text-xs text-muted-foreground">{timeAgo(inc.created_at)}</TableCell>
 										<TableCell className="text-right">
@@ -171,7 +185,7 @@ export default function Incidents() {
 									</TableRow>
 								))}
 								{paginated.length === 0 && (
-									<TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-12">No incidents match your filters</TableCell></TableRow>
+									<TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-12">{isAdmin ? 'No incidents match your filters' : 'No incidents assigned to you'}</TableCell></TableRow>
 								)}
 							</TableBody>
 						</Table>

@@ -428,7 +428,12 @@ async def update_incident(incident_id: str, payload: IncidentUpdate):
     # ── Note append ───────────────────────────────────────────
     if payload.note:
         updates.append("notes = notes || %s::jsonb")
-        note_entry = json.dumps([f"[{now.isoformat()}] {payload.note}"])
+        note_obj = {
+            "author": payload.author or "System",
+            "content": payload.note,
+            "created_at": now.isoformat(),
+        }
+        note_entry = json.dumps([note_obj])
         params.append(note_entry)
 
     if not updates:

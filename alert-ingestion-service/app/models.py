@@ -18,6 +18,7 @@ class Alert(BaseModel):
     service: str = Field(..., description="Service name that generated the alert")
     severity: SeverityLevel = Field(..., description="Alert severity level")
     message: str = Field(..., description="Alert message")
+    category: Optional[str] = Field(None, description="Alert category (CPU, Memory, Disk, Network, etc.)")
     labels: Optional[Dict[str, str]] = Field(default_factory=dict, description="Additional labels")
     timestamp: Optional[datetime] = Field(
         default_factory=lambda: datetime.now(timezone.utc),

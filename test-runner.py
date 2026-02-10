@@ -198,7 +198,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "payment-api",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "alice", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "frank", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -208,7 +208,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "auth-service",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "bob", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "grace", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -218,7 +218,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "user-service",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "charlie", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "heidi", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -228,7 +228,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "cache-service",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "diana", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "ivan", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -238,7 +238,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "log-collector",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "eve", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "judy", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -248,7 +248,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "api-gateway",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "mallory", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "oscar", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -258,7 +258,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "order-service",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "peggy", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "trent", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -268,7 +268,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "analytics-service",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "victor", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "wendy", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -278,7 +278,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "notification-worker",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "sybil", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "walter", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -288,7 +288,7 @@ ONCALL_SCHEDULES = [
     {
         "team": "order-processor",
         "rotation_type": "weekly",
-        "start_date": "2026-02-01",
+        "start_date": "2026-02-10",
         "engineers": [
             {"name": "rupert", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "zara", "email": "omarafidi2005@gmail.com", "primary": False},
@@ -364,6 +364,7 @@ def cmd_send(scenario_id: str | None = None) -> dict:
             "severity": s["severity"],
             "message": s["message"],
             "labels": s.get("labels", {}),
+            "category": s.get("category"),
         }
         result = _post(ALERT_URL, payload)
         if result is None:
@@ -430,6 +431,7 @@ def cmd_continuous(interval: int) -> None:
             "severity": s["severity"],
             "message": s["message"],
             "labels": s.get("labels", {}),
+            "category": s.get("category"),
         }
         result = _post(ALERT_URL, payload)
         if result:

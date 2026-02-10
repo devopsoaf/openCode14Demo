@@ -505,21 +505,22 @@ async def _notify_engineer(incident_id: str, engineer: str, message: str, team: 
                 json={
                     "incident_id": incident_id,
                     "engineer": engineer,
-                    "channel": "mock",
+                    "channel": "email",
                     "message": message,
+                    "severity": "high",
                 },
             )
             notif_status = "sent" if resp.status_code < 400 else "failed"
             escalation_notifications_total.labels(
                 team=team,
-                channel="mock",
+                channel="email",
                 status=notif_status,
             ).inc()
             logger.info(f"Notification sent to {engineer} for {incident_id}: {notif_status}")
     except Exception as e:
         escalation_notifications_total.labels(
             team=team,
-            channel="mock",
+            channel="email",
             status="failed",
         ).inc()
         logger.warning(f"Notification service unavailable for {incident_id}: {e}")

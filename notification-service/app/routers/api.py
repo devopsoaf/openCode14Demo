@@ -108,19 +108,70 @@ async def _send_email(notification_id: str, request: NotificationRequest) -> Not
         msg["To"] = request.engineer
         msg["Subject"] = f"[ExpertMind Alert] {request.incident_id}"
 
+        sev = request.severity.value if request.severity else 'N/A'
+        sev_upper = sev.upper()
+        # Severity-based colors
+        sev_colors = {
+            'critical': ('#dc2626', '#fef2f2'),
+            'high': ('#ea580c', '#fff7ed'),
+            'medium': ('#ca8a04', '#fefce8'),
+            'low': ('#2563eb', '#eff6ff'),
+        }
+        sev_color, sev_bg = sev_colors.get(sev, ('#6b7280', '#f9fafb'))
+
+        # Parse message lines for better formatting
+        message_lines = request.message.replace('\n', '<br>')
+
         # Plain-text body
         body_text = (
             f"Incident: {request.incident_id}\n"
-            f"Severity: {request.severity.value if request.severity else 'N/A'}\n\n"
+            f"Severity: {sev}\n\n"
             f"{request.message}"
         )
-        # HTML body
-        body_html = (
-            f"<h2>ExpertMind — Incident Alert</h2>"
-            f"<p><strong>Incident:</strong> {request.incident_id}</p>"
-            f"<p><strong>Severity:</strong> {request.severity.value if request.severity else 'N/A'}</p>"
-            f"<hr><p>{request.message}</p>"
-        )
+        # HTML body — professional email template
+        body_html = f"""
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f172a;padding:32px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background-color:#1e293b;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.3);">
+  <!-- Header -->
+  <tr><td style="background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:28px 32px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td><span style="font-size:20px;font-weight:700;color:#ffffff;letter-spacing:-0.3px;">⚡ ExpertMind</span><br>
+        <span style="font-size:12px;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:1.5px;">Incident Alert</span>
+      </td>
+      <td align="right"><span style="background:{sev_color};color:#fff;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">{sev_upper}</span></td>
+    </tr></table>
+  </td></tr>
+  <!-- Body -->
+  <tr><td style="padding:32px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f172a;border-radius:8px;border:1px solid #334155;">
+    <tr><td style="padding:20px;">
+      <p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;">Incident ID</p>
+      <p style="margin:0 0 16px;font-size:15px;font-weight:600;color:#f1f5f9;font-family:monospace;">{request.incident_id}</p>
+      <p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;">Assigned To</p>
+      <p style="margin:0 0 16px;font-size:14px;color:#e2e8f0;">{request.engineer}</p>
+      <p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#94a3b8;">Details</p>
+      <p style="margin:0;font-size:14px;color:#cbd5e1;line-height:1.6;">{message_lines}</p>
+    </td></tr></table>
+    <!-- CTA -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
+    <tr><td align="center">
+      <a href="http://localhost:8080/incidents/{request.incident_id}" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#ffffff;padding:12px 32px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:0.3px;">View Incident →</a>
+    </td></tr></table>
+  </td></tr>
+  <!-- Footer -->
+  <tr><td style="padding:20px 32px;border-top:1px solid #334155;">
+    <p style="margin:0;font-size:11px;color:#64748b;text-align:center;">ExpertMind Incident & On-Call Platform &middot; Automated alert — do not reply</p>
+  </td></tr>
+</table>
+</td></tr></table>
+</body></html>
+"""
 
         msg.attach(MIMEText(body_text, "plain"))
         msg.attach(MIMEText(body_html, "html"))

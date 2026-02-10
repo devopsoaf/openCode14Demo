@@ -7,7 +7,7 @@ import { listSchedules, getCurrentOncall, getOncallMetrics } from '@/services/ap
 import { formatDate, timeAgo } from '@/utils/formatters';
 import { cn } from '@/lib/utils';
 
-const KNOWN_TEAMS = ['platform', 'backend', 'frontend'];
+const KNOWN_TEAMS = [];  // Will be populated dynamically from schedules
 
 export default function OnCall() {
 	const { data: schedules = [], isLoading: schedLoading } = useQuery({
@@ -24,16 +24,20 @@ export default function OnCall() {
 
 	const scheduleList = Array.isArray(schedules) ? schedules : schedules?.schedules || [];
 
+	// Dynamically discover teams from schedules
+	const dynamicTeams = [...new Set(scheduleList.map(s => s.team).filter(Boolean))];
+
 	const oncallResults = useQueries({
-		queries: KNOWN_TEAMS.map(team => ({
+		queries: dynamicTeams.map(team => ({
 			queryKey: ['oncall-current', team],
 			queryFn: () => getCurrentOncall(team),
 			retry: false,
+			enabled: dynamicTeams.length > 0,
 		})),
 	});
 
 	const oncallList = oncallResults
-		.map((q, i) => q.data ? { ...q.data, _team: KNOWN_TEAMS[i] } : null)
+		.map((q, i) => q.data ? { ...q.data, _team: dynamicTeams[i] } : null)
 		.filter(Boolean);
 
 	return (

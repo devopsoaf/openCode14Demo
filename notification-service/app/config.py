@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 587
     SMTP_SENDER: str = "omarafidi2005@gmail.com"
     SMTP_PASSWORD: Optional[str] = "epce wqco bsgw zssm"
-    EMAIL_COOLDOWN_SECONDS: int = 0  # Disabled for demo/testing
+    EMAIL_COOLDOWN_SECONDS: int = 10  # Max 1 email per engineer every 10 seconds
     WEBHOOK_URLS: str = ""  # Comma-separated webhook URLs
     SLACK_WEBHOOK_URL: Optional[str] = None  # From env only — never hardcode
 

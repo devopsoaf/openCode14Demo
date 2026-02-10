@@ -26,7 +26,7 @@ export default function Notifications() {
 	const filtered = allNotifications.filter(n =>
 		!search ||
 		(n.message || n.subject || n.channel || '').toLowerCase().includes(search.toLowerCase()) ||
-		(n.recipient || '').toLowerCase().includes(search.toLowerCase())
+		(n.engineer || '').toLowerCase().includes(search.toLowerCase())
 	);
 	const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
 	const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -71,7 +71,7 @@ export default function Notifications() {
 											<p className="text-xs text-muted-foreground mt-1 line-clamp-2">{n.message || n.body || ''}</p>
 											<div className="flex items-center gap-2 mt-2">
 												<Badge variant="outline" className="text-[10px]">{n.channel || 'N/A'}</Badge>
-												{n.recipient && <span className="text-[10px] text-muted-foreground">&rarr; {n.recipient}</span>}
+												{n.engineer && <span className="text-[10px] text-muted-foreground">&rarr; {n.engineer}</span>}
 												<Badge variant={sent ? 'success' : n.status === 'failed' ? 'destructive' : 'secondary'} className="text-[10px] ml-auto">
 													{sent && <Check className="mr-1 h-2.5 w-2.5" />}
 													{n.status || 'pending'}

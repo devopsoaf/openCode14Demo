@@ -42,6 +42,7 @@ class IncidentUpdate(BaseModel):
     status: Optional[IncidentStatus] = Field(None, description="New status")
     assigned_to: Optional[str] = Field(None, description="Assignee engineer name")
     note: Optional[str] = Field(None, description="Note to append")
+    author: Optional[str] = Field(None, description="Author of the note")
 
 
 # ---------------------------------------------------------------------------
@@ -60,7 +61,7 @@ class IncidentResponse(BaseModel):
     severity: SeverityLevel
     status: IncidentStatus
     assigned_to: Optional[str] = None
-    notes: List[str] = Field(default_factory=list)
+    notes: List = Field(default_factory=list)
     alerts: List[Dict] = Field(default_factory=list)
     created_at: datetime
     acknowledged_at: Optional[datetime] = None

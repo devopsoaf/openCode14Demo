@@ -34,7 +34,11 @@ async def create_alert(alert: Alert):
     ).inc()
 
     alert_id = f"alert-{uuid.uuid4().hex[:12]}"
-    labels_json = json.dumps(alert.labels) if alert.labels else "{}"
+    # Merge category into labels so it's persisted and queryable
+    merged_labels = dict(alert.labels or {})
+    if alert.category:
+        merged_labels["category"] = alert.category
+    labels_json = json.dumps(merged_labels) if merged_labels else "{}"
     ts = alert.timestamp or datetime.now(timezone.utc)
 
     # ── 1. Store raw alert ────────────────────────────────────
