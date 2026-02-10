@@ -196,7 +196,7 @@ SCENARIOS = [
 
 ONCALL_SCHEDULES = [
     {
-        "team": "platform",
+        "team": "payment-api",
         "rotation_type": "weekly",
         "start_date": "2026-02-01",
         "engineers": [
@@ -206,7 +206,7 @@ ONCALL_SCHEDULES = [
         "escalation_minutes": 5,
     },
     {
-        "team": "backend",
+        "team": "auth-service",
         "rotation_type": "weekly",
         "start_date": "2026-02-01",
         "engineers": [
@@ -216,7 +216,7 @@ ONCALL_SCHEDULES = [
         "escalation_minutes": 5,
     },
     {
-        "team": "frontend",
+        "team": "user-service",
         "rotation_type": "weekly",
         "start_date": "2026-02-01",
         "engineers": [
@@ -226,7 +226,7 @@ ONCALL_SCHEDULES = [
         "escalation_minutes": 5,
     },
     {
-        "team": "sre",
+        "team": "cache-service",
         "rotation_type": "weekly",
         "start_date": "2026-02-01",
         "engineers": [
@@ -236,12 +236,62 @@ ONCALL_SCHEDULES = [
         "escalation_minutes": 5,
     },
     {
-        "team": "data",
+        "team": "log-collector",
         "rotation_type": "weekly",
         "start_date": "2026-02-01",
         "engineers": [
             {"name": "eve", "email": "omarafidi2005@gmail.com", "primary": True},
             {"name": "judy", "email": "omarafidi2005@gmail.com", "primary": False},
+        ],
+        "escalation_minutes": 5,
+    },
+    {
+        "team": "api-gateway",
+        "rotation_type": "weekly",
+        "start_date": "2026-02-01",
+        "engineers": [
+            {"name": "mallory", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "oscar", "email": "omarafidi2005@gmail.com", "primary": False},
+        ],
+        "escalation_minutes": 5,
+    },
+    {
+        "team": "order-service",
+        "rotation_type": "weekly",
+        "start_date": "2026-02-01",
+        "engineers": [
+            {"name": "peggy", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "trent", "email": "omarafidi2005@gmail.com", "primary": False},
+        ],
+        "escalation_minutes": 5,
+    },
+    {
+        "team": "analytics-service",
+        "rotation_type": "weekly",
+        "start_date": "2026-02-01",
+        "engineers": [
+            {"name": "victor", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "wendy", "email": "omarafidi2005@gmail.com", "primary": False},
+        ],
+        "escalation_minutes": 5,
+    },
+    {
+        "team": "notification-worker",
+        "rotation_type": "weekly",
+        "start_date": "2026-02-01",
+        "engineers": [
+            {"name": "sybil", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "walter", "email": "omarafidi2005@gmail.com", "primary": False},
+        ],
+        "escalation_minutes": 5,
+    },
+    {
+        "team": "order-processor",
+        "rotation_type": "weekly",
+        "start_date": "2026-02-01",
+        "engineers": [
+            {"name": "rupert", "email": "omarafidi2005@gmail.com", "primary": True},
+            {"name": "zara", "email": "omarafidi2005@gmail.com", "primary": False},
         ],
         "escalation_minutes": 5,
     },

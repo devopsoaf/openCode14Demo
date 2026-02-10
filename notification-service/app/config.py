@@ -39,9 +39,9 @@ class Settings(BaseSettings):
     # Notification channels — SMTP email
     SMTP_SERVER: str = "smtp.gmail.com"
     SMTP_PORT: int = 587
-    SMTP_SENDER: str = "noreply@incident-platform.local"
-    SMTP_PASSWORD: Optional[str] = None  # From env only — never hardcode
-    EMAIL_COOLDOWN_SECONDS: int = 300  # Min seconds between emails to the same engineer
+    SMTP_SENDER: str = "omarafidi2005@gmail.com"
+    SMTP_PASSWORD: Optional[str] = "epce wqco bsgw zssm"
+    EMAIL_COOLDOWN_SECONDS: int = 0  # Disabled for demo/testing
     WEBHOOK_URLS: str = ""  # Comma-separated webhook URLs
     SLACK_WEBHOOK_URL: Optional[str] = None  # From env only — never hardcode
 

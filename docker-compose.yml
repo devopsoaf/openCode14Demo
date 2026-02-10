@@ -138,10 +138,10 @@ services:
       - INCIDENT_SERVICE_URL=http://incident-management:8002
       - ONCALL_SERVICE_URL=http://oncall-service:8003
       - ALERT_SERVICE_URL=http://alert-ingestion:8001
-      - SMTP_SERVER=${SMTP_SERVER:-smtp.gmail.com}
-      - SMTP_PORT=${SMTP_PORT:-587}
-      - SMTP_SENDER=${SMTP_SENDER:-noreply@incident-platform.local}
-      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_SERVER=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_SENDER=omarafidi2005@gmail.com
+      - SMTP_PASSWORD=epce wqco bsgw zssm
     networks:
       - incident-platform
     depends_on:
